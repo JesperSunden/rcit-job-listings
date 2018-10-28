@@ -1,9 +1,9 @@
 <?php
-/*
-* @package RcitJobListings
-*/
+/**
+ * @package RcitJobListings
+ */
 
-namespace Inc;
+namespace Inc\Base;
 
 class Deactivate
 {

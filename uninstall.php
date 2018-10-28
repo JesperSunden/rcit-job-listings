@@ -1,10 +1,10 @@
 <?php
 
-/*
-* Trigger this file on Plugin uninstall
-*
-* @package RcitJobListings
-*/
+/**
+ * Trigger this file on Plugin uninstall
+ * 
+ * @package RcitJobListings
+ */
 
 
 if(! defined( 'WP_UNINSTALL_PLUGIN' ) ) {

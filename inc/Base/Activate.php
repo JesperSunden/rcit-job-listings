@@ -1,8 +1,8 @@
 <?php
-/*
-* @package RcitJobListings
-*/
-namespace Inc;
+/**
+ * @package RcitJobListings
+ */
+namespace Inc\Base;
 
 class Activate
 {

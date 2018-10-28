@@ -1,7 +1,8 @@
 <?php
-/*
-* @package RcitJobListings
-*/
+/**
+ * @package RcitJobListings
+ */
+
 /*
 Plugin Name: RCIT Job Listings
 Plugin URI: https://redcapesit.se
@@ -25,80 +26,38 @@ if ( ! defined( 'ABSPATH' ) ) {
     die;
 }
 
+// Require once Composer Autoload
 if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
     require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
-use Inc\Activate;
-use Inc\Deactivate;
+// Define CONSTANTS
+define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
+define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
-if ( ! class_exists( 'RcitJobListings' ) ){
-    class RcitJobListings
-    {
+use Inc\Base\Activate;
+use Inc\Base\Deactivate;
 
-        // Init Plugin basename variable
-        public $plugin_basename;
+/**
+ * Code runs during activation of plugin
+ */
+function activate_rcit_job_listings() {
+    Activate::activate();
+}
+register_activation_hook( __FILE__, 'activate_rcit_job_listings' );
 
-        function __construct() {
-            //Populate plugin basename
-            $this->plugin_basename = plugin_basename( __FILE__ );
-        }
+/**
+ * Code runs during deactivation of plugin
+ */
+function deactivate_rcit_job_listings() {
+    Deactivate::deactivate();
+}
+register_deactivation_hook( __FILE__, 'deactivate_rcit_job_listings' );
 
-        function register() {
-            add_action( 'admin_enqueue_scripts', array( $this, 'enqueue') );
-
-            add_action( 'admin_menu', array( $this, 'add_admin_pages' ) );
-
-            add_filter( "plugin_action_links_$this->plugin_basename", array( $this, 'settings_link' ) );
-        }
-
-        public function settings_link( $links ) {
-            $settingsLink = '<a href="admin.php?page=rcit_job_listings">Settings</a>';
-            array_push( $links, $settingsLink );
-
-            return $links;
-        }
-
-        public function add_admin_pages() {
-            add_menu_page( 'Job Listing', 'Job Listing', 'manage_options', 'rcit_job_listings', array( $this, 'admin_index' ), 'dashicons-nametag', 110 );
-        }
-
-        public function admin_index() {
-            require_once plugin_dir_path( __FILE__ ) . 'templates/admin-page.php';
-        }
-
-        protected function create_post_type() {
-            add_action( 'init', array( $this, 'custom_post_type' ) );
-
-        }
-
-        function custom_post_type() {
-            register_post_type( 'book', [ 'public' => true, 'label' => 'Books' ] ) ;
-        }
-
-        function enqueue() {
-            wp_enqueue_style( 'mypluginstyle', plugins_url( '/assets/style.css', __FILE__ ) );
-            wp_enqueue_script( 'mypluginsript', plugins_url( '/assets/script.js', __FILE__ ) );
-            
-        }
-
-        function activate() {
-            Activate::activate();
-        }
-
-        function deactivate() {
-            Deactivate::deactivate();
-        }
-    }
-
-
-    $rcitJobListings = new RcitJobListings();
-    $rcitJobListings->register();
-
-
-    // Activation
-    register_activation_hook( __FILE__, array( $rcitJobListings, 'activate' ) );
-
-    // Deactivation
-    register_deactivation_hook( __FILE__, array( $rcitJobListings, 'deactivate' ) );
+/**
+ * Initialize all the core classes of the plugin
+ */
+if ( class_exists( 'Inc\\Init' ) ) {
+    Inc\Init::register_services();
 }
