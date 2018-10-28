@@ -31,19 +31,11 @@ if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
     require_once dirname( __FILE__ ) . '/vendor/autoload.php';
 }
 
-// Define CONSTANTS
-define( 'PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
-define( 'PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-define( 'PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
-
-use Inc\Base\Activate;
-use Inc\Base\Deactivate;
-
 /**
  * Code runs during activation of plugin
  */
 function activate_rcit_job_listings() {
-    Activate::activate();
+    Inc\Base\Activate::activate();
 }
 register_activation_hook( __FILE__, 'activate_rcit_job_listings' );
 
@@ -51,7 +43,7 @@ register_activation_hook( __FILE__, 'activate_rcit_job_listings' );
  * Code runs during deactivation of plugin
  */
 function deactivate_rcit_job_listings() {
-    Deactivate::deactivate();
+    Inc\Base\Deactivate::deactivate();
 }
 register_deactivation_hook( __FILE__, 'deactivate_rcit_job_listings' );
 
