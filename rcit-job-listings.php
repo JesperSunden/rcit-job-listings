@@ -20,10 +20,17 @@ Text Domain: rcit-job-listings
 */
 
 // Check if WP is accessing file, if else die;
-if( ! defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
     echo 'Not that easy, buddy!';
     die;
 }
+
+if ( file_exists( dirname( __FILE__ ) . '/vendor/autoload.php' ) ) {
+    require_once dirname( __FILE__ ) . '/vendor/autoload.php';
+}
+
+use Inc\Activate;
+use Inc\Deactivate;
 
 if ( ! class_exists( 'RcitJobListings' ) ){
     class RcitJobListings
@@ -76,13 +83,11 @@ if ( ! class_exists( 'RcitJobListings' ) ){
         }
 
         function activate() {
-            require_once plugin_dir_path( __FILE__ ) . 'inc/rcit-job-listings-activate.php';
-            RcitJobListingsActivate::activate();
+            Activate::activate();
         }
 
         function deactivate() {
-            require_once plugin_dir_path( __FILE__ ) . 'inc/rcit-job-listings-deactivate.php';
-            RcitJobListingsDeactivate::deactivate();
+            Deactivate::deactivate();
         }
     }
 
