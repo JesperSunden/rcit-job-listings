@@ -14,12 +14,6 @@ License: GPLv2 or later
 Text Domain: rcit-job-listings
 */
 
-/*
-* Classes are writting with PascalCase
-* Variables are written with camelCase
-* Methods are written with underscores
-*/
-
 // Check if WP is accessing file, if else die;
 if ( ! defined( 'ABSPATH' ) ) {
     echo 'Not that easy, buddy!';
