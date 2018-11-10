@@ -7,15 +7,16 @@ namespace Inc\Api;
 
 class SettingsApi
 {
+    //Admin Pages variables
     public $admin_pages = array();
-
     public $admin_subpages = array();
 
+    //Admin Pages setting variables
     public $settings = array();
-
     public $sections = array();
-
     public $fields = array();
+
+    public $wp_pages = array();
 
     public function register() {
         if ( ! empty($this->admin_pages) ) {
@@ -72,6 +73,10 @@ class SettingsApi
         }
     }
 
+    /**
+     * Setting the admin pages settings fields
+     */
+
     public function set_settings(array $settings) {
         $this->settings = $settings;  
 
@@ -106,6 +111,26 @@ class SettingsApi
         // Add settings field
         foreach ( $this->fields as $field ) {
             add_settings_field($field['id'], $field['title'], ( isset( $field['callback'] ) ? $field['callback'] : '' ), $field['page'], $field['section'], ( isset( $field['args'] ) ? $field['args'] : '' ) );
+        }
+    }
+
+    public function add_wp_pages(array $wp_pages) {
+        $this->wp_pages = $wp_pages;
+
+        return $this;
+    }
+
+    public function register_wp_pages() {
+        //Adding WP Pages
+        foreach ( $this->wp_pages as $wp_page ) {
+            $post_object = array(
+                'post_content' => $wp_page['post_content'],
+                'post_title' => $wp_page['post_title'],
+                'post_type'     => $wp_page['post_type'],
+                'post_status'   => $wp_page['post_status'],
+            );
+            
+            wp_insert_post( $post_object );
         }
     }
 }
